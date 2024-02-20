@@ -1,0 +1,69 @@
+.Card {
+  display: flex;
+  position: relative;
+  
+  width: 100%;
+  height: 1024px;
+  overflow: hidden;
+  text-align: left;
+  font-size: 21px;
+  color: black;
+  font-family: var(--font-inter);
+  background-color: rgb(37, 99, 134);
+}
+.search{
+  position: absolute;
+  top: 100px;
+  right: 600px;
+  
+}
+
+.image {
+  position: absolute;
+  top: 172px;
+  left: 56px;
+  width: 660px;
+  height: 736px;
+  object-fit: cover;
+}
+.temp{
+  position: absolute;
+  top: 120px;
+  left: 978px;
+  font-size: 80px;
+}
+  .jaipur {
+    position: absolute;
+    top: 160px;
+    left: 1000px;
+    font-size: 80px;
+  }
+
+.jaipur {
+  top: 332px;
+  left: 961px;
+  font-size: 70px;
+}
+.tempMax,
+.tempMin {
+  position: absolute;
+  top: 482px;
+  left: 781px;
+  font-size: 30px;
+}
+.tempMax {
+  top: 652px;
+  font-size: 30px;
+}
+.humidity,
+.pressure{
+  position: absolute;
+  top: 482px;
+  left: 1187px;
+  font-size: 30px;
+}
+.humidity {
+  top: 652px;
+  font-size: 30px;
+}
+
