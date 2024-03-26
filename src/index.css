@@ -1,24 +1,40 @@
+
 .fullscreen-background {
-  background-image: url('./wea.jpg');
+  background-image: url('wea.jpg');  
+  height: 100vh;
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  width: 100vw; 
-  height: 100vh; 
   display: flex;
   justify-content: center; 
   align-items: center; 
 }
+*{
+  margin: 0;
+  padding: 0;
+}
 
 .Card {
-  background-color: rgba(2, 2, 2, 0.356);   padding: 25px;
-  border-radius: 10px;
+  width: 200px; 
+  margin: 0 auto; 
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.151);
+  border-radius: 15px;
 }
+
+.search1 {
+  text-align: center; 
+  margin-bottom: 20px;
+  border-radius: 25px;
+}
+
 .search-bar {
   border: 2px solid black;
   border-radius: 25px;
   padding: 8px 12px;
   font-size: 16px;
   color: black;
+  width: 13rem;
 }
 
 .search-bar::placeholder {
@@ -26,18 +42,9 @@
 }
 
 
-.image-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-
-.image {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.info{
+.info {
   color: white;
+  line-height: 2;
+  text-align: center;
 }
+
