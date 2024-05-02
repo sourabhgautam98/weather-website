@@ -20,7 +20,7 @@ function App() {
           setError('');
         })
         .catch((err) => {
-          setError('Failed to fetch data. Please try again.');
+          setError('Failed to fetch data. Please try  again.');
           console.error(err);
         })
         .finally(() => setLoading(false));
