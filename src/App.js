@@ -1,73 +1,77 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import sunsetImage from './assets/sunset.jpg';
 
 function App() {
-  const [data, setData] = useState({});
-  const [location, setLocation] = useState('JAIPUR');
-  const [loading, setLoading] = useState(false);
+  const [location, setLocation] = useState('');
+  const [weatherData, setWeatherData] = useState(null);
   const [error, setError] = useState('');
 
- 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=fc3d05c5c86d482da054ed481ba8555d`;
+  const API_KEY = 'fc3d05c5c86d482da054ed481ba8555d';
+  const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
-  const searchLocation = (event) => {
-    if (event.key === 'Enter') {
-      setLoading(true);
-      axios.get(url)
-        .then((response) => {
-          setData(response.data);
-          setLocation('');
-          setError('');
-        })
-        .catch((err) => {
-          setError('Failed to fetch data. Please try  again.');
-          console.error(err);
-        })
-        .finally(() => setLoading(false));
+  const fetchWeather = async (e) => {
+    e.preventDefault();
+    if (!location) return;
+
+    try {
+      const response = await axios.get(API_URL, {
+        params: {
+          q: location,
+          units: 'metric',
+          appid: API_KEY
+        }
+      });
+      setWeatherData(response.data);
+      setError('');
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        setError('City not found');
+      } else {
+        setError('An error occurred while fetching weather data');
+      }
+      setWeatherData(null);
     }
-  }
+  };
 
   return (
     <div className="app">
-      <div className="search">
+      <h1>Weather App</h1>
+      <form onSubmit={fetchWeather} className="search-form">
         <input
+          type="text"
           value={location}
-          onChange={event => setLocation(event.target.value.toUpperCase())}
-          onKeyPress={searchLocation}
-          placeholder='Enter Location'
-          type="search" />
-      </div>
+          onChange={(e) => setLocation(e.target.value)}
+          placeholder="Enter city name"
+          className="search-input"
+        />
+        <button type="submit" className="search-button">
+          Get Weather
+        </button>
+      </form>
+
       {error && <p className="error">{error}</p>}
-      {loading ? <p>Loading...</p> : (
-        <div className="container">
-          <div className="top">
-            <div className="location">
-              <p>{data.name}</p>
+
+      {weatherData && (
+        <div className="weather-container" style={{ backgroundImage: `url(${sunsetImage})` }}>
+          <h2>
+            {weatherData.name}, {weatherData.sys.country}
+          </h2>
+          <div className="weather-info">
+            <div className="weather-main">
+              <img
+                src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                alt="weather icon"
+              />
+              <p className="temperature">{Math.round(weatherData.main.temp)}°C</p>
             </div>
-            <div className="temp">
-              {data.main && <h1>{data.main.temp.toFixed()}°C</h1>}
-            </div>
-            <div className="description">
-              {data.weather && <p>{data.weather[0].main}</p>}
+            <p className="description">{weatherData.weather[0].description}</p>
+            <div className="weather-details">
+              <p>Feels like: {Math.round(weatherData.main.feels_like)}°C</p>
+              <p>Humidity: {weatherData.main.humidity}%</p>
+              <p>Wind: {weatherData.wind.speed} m/s</p>
             </div>
           </div>
-
-          {data.name && (
-            <div className="bottom">
-              <div className="feels">
-                {data.main && <p className='bold'>{data.main.feels_like.toFixed()}°C</p>}
-                <p>Feels Like</p>
-              </div>
-              <div className="humidity">
-                {data.main && <p className='bold'>{data.main.humidity}%</p>}
-                <p>Humidity</p>
-              </div>
-              <div className="wind">
-                {data.wind && <p className='bold'>{data.wind.speed.toFixed()} MPH</p>}
-                <p>Wind Speed</p>
-              </div>
-            </div>
-          )}
         </div>
       )}
     </div>
